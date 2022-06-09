@@ -7,13 +7,12 @@
 3. pip install -r requirements.txt
     -   pip install nxlib
     -   pip install gpib_ctypes
-4. Copy and paste everything into the constant.py file into the nxlib/constants.py file
+4. Copy and paste everything into the constant.py file into the nxlib/constants.py file (don't copy over existing constants)
 
 ## Serial Numbers
 - RGB By Window: "4104140356"
 - Ensenso By Window: "216866"
 - Ensenso By Door: "216865"
-
 
 ## Classes
 

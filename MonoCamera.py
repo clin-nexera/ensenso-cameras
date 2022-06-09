@@ -8,17 +8,21 @@ class MonoCam():
     
     def __init__(self, serial):
         self.camera_serial = serial
+        self.raw_img = None
+        self.rectified_img = None
 
     def capture_raw(self, filename="raw.png"):
-        with NxLib(), MonoCamera("4104140356") as camera:
+        with NxLib(), MonoCamera(self.camera_serial) as camera:
             camera.capture()
             save_image(filename, camera[ITM_IMAGES][ITM_RAW])
+            self.raw_img = camera[ITM_IMAGES][ITM_RAW].get_binary_data()
 
     def capture_rectified(self, filename="rectified.png"):
         with NxLib(), MonoCamera(self.camera_serial) as camera:
             camera.capture()
             camera.rectify()
             save_image(filename, camera[ITM_IMAGES][ITM_RECTIFIED])
+            self.rectified_img = camera[ITM_IMAGES][ITM_RECTIFIED].get_binary_data()
 
 
 def save_image(filename, item):

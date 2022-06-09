@@ -1,9 +1,12 @@
 import argparse
 import cv2 as cv
+import open3d as o3d
+import numpy as np
 
 import nxlib.api as api
 from nxlib import NxLibCommand, NxLibException, NxLibItem
 from nxlib.constants import *
+
 
 class EnsensoCamera():
 
@@ -97,6 +100,21 @@ class EnsensoCamera():
         if self.texture_image_u8_4d is not None:
             print("here")
             cv.imwrite(filename, self.texture_image_u8_4d)
+
+        
+def ensenso_to_open3d(ensenso_pc):
+    point_cloud = o3d.geometry.PointCloud()
+
+    # Reshape from (m x n x 3) to ( (m*n) x 3)
+    vector_3d_vector = ensenso_pc.reshape(
+        (ensenso_pc.shape[0] * ensenso_pc.shape[1]), ensenso_pc.shape[2])
+
+    # Filter nans: if a row has nan's in it, delete it
+    vector_3d_vector = vector_3d_vector[~np.isnan(
+        vector_3d_vector).any(axis=1)]
+    point_cloud.points = o3d.utility.Vector3dVector(vector_3d_vector)
+    return point_cloud
+
 
 
 if __name__ == "__main__":
