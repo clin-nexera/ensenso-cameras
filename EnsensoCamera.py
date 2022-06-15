@@ -78,17 +78,17 @@ class EnsensoCamera():
             rotation_axis_1 = NxLibItem()[ITM_CAMERAS][self.camera_serial][ITM_LINK][ITM_ROTATION][ITM_AXIS][1].as_double()
             rotation_axis_2 = NxLibItem()[ITM_CAMERAS][self.camera_serial][ITM_LINK][ITM_ROTATION][ITM_AXIS][2].as_double()
 
-            traslation_0 = NxLibItem()[ITM_CAMERAS][self.camera_serial][ITM_LINK][ITM_TRANSLATION][0].as_double()
-            traslation_1 = NxLibItem()[ITM_CAMERAS][self.camera_serial][ITM_LINK][ITM_TRANSLATION][1].as_double()
-            traslation_2 = NxLibItem()[ITM_CAMERAS][self.camera_serial][ITM_LINK][ITM_TRANSLATION][2].as_double()
+            translation_0 = NxLibItem()[ITM_CAMERAS][self.camera_serial][ITM_LINK][ITM_TRANSLATION][0].as_double()
+            translation_1 = NxLibItem()[ITM_CAMERAS][self.camera_serial][ITM_LINK][ITM_TRANSLATION][1].as_double()
+            translation_2 = NxLibItem()[ITM_CAMERAS][self.camera_serial][ITM_LINK][ITM_TRANSLATION][2].as_double()
 
             # Generate orthographic projection 2D depth and texture images
             rend_point_map = NxLibCommand(CMD_RENDER_POINT_MAP)
             rend_point_map.parameters()[ITM_SIZE][0] = self.rendered_point_map_width # set width of the images, overriding the default value
             rend_point_map.parameters()[ITM_SIZE][1] = self.rendered_point_map_height # height of the images, overriding the default value
             rend_point_map.parameters()[ITM_FILL_XY_COORDINATES] = True
-            rend_point_map.parameters()[ITM_VIEW_POSE][ITM_TRANSLATION][0] = traslation_1 # shift target point to camera 
-            rend_point_map.parameters()[ITM_VIEW_POSE][ITM_TRANSLATION][1] = traslation_0
+            rend_point_map.parameters()[ITM_VIEW_POSE][ITM_TRANSLATION][0] = translation_1 # shift target point to camera 
+            rend_point_map.parameters()[ITM_VIEW_POSE][ITM_TRANSLATION][1] = translation_0
             rend_point_map.parameters()[ITM_VIEW_POSE][ITM_TRANSLATION][2] = 0.0
             rend_point_map.execute()
             self.depth_image_f32_3d = NxLibItem()[ITM_IMAGES][ITM_RENDER_POINT_MAP].get_binary_data()
